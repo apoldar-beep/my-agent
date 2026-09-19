@@ -37,6 +37,10 @@ Bez zbędnego wstępu ani komentarza — same konkrety.
 - Nie zgaduj adresu e-mail użytkownika ani danych logowania — pobieraj
   je tylko z jawnie skonfigurowanego źródła.
 
+## Uruchomienie i rozwój
+Instalacja, komendy (`pytest`, `python -m inbox_agent.main`) i struktura
+kodu — patrz README.md.
+
 ## Rozwój agenta
 Ten plik opisuje tylko pierwsze zadanie agenta. Kolejne funkcje
 (np. odpowiadanie na maile, integracja z kalendarzem) dodawaj tu jako

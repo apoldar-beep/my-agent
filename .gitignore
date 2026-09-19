@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# Sekrety
+.env
+
+# Dane wygenerowane lokalnie — treść skrzynki jest wrażliwa, nie commitujemy jej
+summaries/
+.state/
