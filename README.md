@@ -6,9 +6,9 @@ zakres, bezpieczeństwo) opisuje `CLAUDE.md`.
 
 ## Status
 
-To jest szkielet projektu. Pobieranie poczty jest na razie realizowane
-przez `MockMailProvider` (dane testowe) — prawdziwy dostawca (Gmail API,
-IMAP, …) nie został jeszcze wybrany ani zaimplementowany.
+Dostępne dostawce poczty: `mock` (dane testowe, domyślny) i `gmail`
+(Gmail API, tylko odczyt). Inne dostawcy (IMAP, …) nie są jeszcze
+zaimplementowani.
 
 ## Instalacja
 
@@ -36,12 +36,38 @@ kolejne uruchomienie pobiera tylko wiadomości nowsze niż poprzednie.
       models.py       — model EmailMessage
       mail/base.py    — interfejs MailProvider (zaimplementuj dla realnego dostawcy)
       mail/mock.py     — testowy dostawca danych
+      mail/gmail.py    — dostawca Gmail API (OAuth2, tylko odczyt)
       summarizer.py    — budowa promptu i wywołanie Anthropic API
       output.py        — zapis podsumowania do pliku Markdown
       state.py         — śledzenie czasu ostatniego uruchomienia
       main.py          — orkiestracja całego przebiegu
 
-## Dodanie prawdziwego dostawcy poczty
+## Konfiguracja Gmail API
+
+1. W [Google Cloud Console](https://console.cloud.google.com/) utwórz
+   projekt (lub użyj istniejącego) i włącz **Gmail API**
+   (API i usługi → Biblioteka).
+2. Skonfiguruj ekran zgody OAuth (typ „Zewnętrzny”, tryb testowy)
+   i dodaj swój adres Gmail jako testera.
+3. Utwórz dane logowania → **Identyfikator klienta OAuth** → typ
+   aplikacji **Desktop app**. Pobierz plik JSON (np. `client_secret.json`).
+4. W `.env` ustaw:
+
+       MAIL_PROVIDER=gmail
+       GMAIL_CLIENT_SECRETS_PATH=/ścieżka/do/client_secret.json
+
+5. Uruchom `python -m inbox_agent.main` **lokalnie, na maszynie z
+   przeglądarką** — przy pierwszym uruchomieniu otworzy się okno
+   autoryzacji Google. Zakres to `gmail.readonly` (tylko odczyt —
+   agent nigdy nie modyfikuje ani nie wysyła poczty). Token odświeżania
+   zostanie zapisany w `.state/gmail_token.json` (ścieżka konfigurowalna
+   przez `GMAIL_TOKEN_PATH`) i użyty automatycznie przy kolejnych
+   uruchomieniach, bez ponownej autoryzacji w przeglądarce.
+6. Filtr wiadomości domyślnie to `in:inbox -in:chats` (pomija wątki
+   czatu); można go nadpisać zmienną `GMAIL_QUERY` (składnia jak w polu
+   wyszukiwania Gmaila).
+
+## Dodanie kolejnego dostawcy poczty
 
 1. Zaimplementuj klasę dziedziczącą po `inbox_agent.mail.base.MailProvider`
    (metoda `fetch_new_messages(since)`).

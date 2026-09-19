@@ -6,6 +6,8 @@ __pycache__/
 
 # Sekrety
 .env
+client_secret*.json
+credentials.json
 
 # Dane wygenerowane lokalnie — treść skrzynki jest wrażliwa, nie commitujemy jej
 summaries/

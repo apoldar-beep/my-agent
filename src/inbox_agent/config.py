@@ -15,6 +15,9 @@ class Config:
     anthropic_api_key: str
     mail_provider: str
     mock_inbox_path: str | None
+    gmail_client_secrets_path: str | None
+    gmail_token_path: str
+    gmail_query: str
 
 
 def load_config() -> Config:
@@ -31,4 +34,7 @@ def load_config() -> Config:
         anthropic_api_key=api_key,
         mail_provider=os.environ.get("MAIL_PROVIDER", "mock"),
         mock_inbox_path=os.environ.get("MOCK_INBOX_PATH"),
+        gmail_client_secrets_path=os.environ.get("GMAIL_CLIENT_SECRETS_PATH"),
+        gmail_token_path=os.environ.get("GMAIL_TOKEN_PATH", ".state/gmail_token.json"),
+        gmail_query=os.environ.get("GMAIL_QUERY", "in:inbox -in:chats"),
     )
