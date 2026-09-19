@@ -67,6 +67,30 @@ kolejne uruchomienie pobiera tylko wiadomości nowsze niż poprzednie.
    czatu); można go nadpisać zmienną `GMAIL_QUERY` (składnia jak w polu
    wyszukiwania Gmaila).
 
+## Harmonogram (cron)
+
+Agent sam się nie planuje — uruchamiaj go cyklicznie przez cron
+maszyny, na której ma stale działać (serwer, własny komputer z
+odpalonym cronem). Domyślny przykład: codziennie o 6:00 czasu
+Europe/Warsaw.
+
+1. Upewnij się, że `.venv` i `.env` są skonfigurowane (patrz wyżej) na
+   maszynie docelowej.
+2. Nadaj uprawnienia do wykonania (już ustawione w repo, ale po
+   sklonowaniu może wymagać ponowienia):
+
+       chmod +x scripts/run_daily.sh
+
+3. `crontab -e` i wklej wpis z `cron/inbox-agent.cron.example`,
+   podmieniając ścieżki na rzeczywistą lokalizację repozytorium.
+4. Logi z każdego uruchomienia trafiają do `logs/cron.log`.
+
+`scripts/run_daily.sh` ustawia `TZ=Europe/Warsaw` przed uruchomieniem,
+więc data w nazwie pliku podsumowania jest poprawna niezależnie od
+tego, czy cron respektuje `CRON_TZ`. Aby zmienić godzinę lub strefę,
+edytuj `CRON_TZ=` i pole godziny (`0 6 * * *`) w crontabie oraz `TZ=`
+w skrypcie.
+
 ## Dodanie kolejnego dostawcy poczty
 
 1. Zaimplementuj klasę dziedziczącą po `inbox_agent.mail.base.MailProvider`

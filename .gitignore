@@ -12,3 +12,4 @@ credentials.json
 # Dane wygenerowane lokalnie — treść skrzynki jest wrażliwa, nie commitujemy jej
 summaries/
 .state/
+logs/*.log

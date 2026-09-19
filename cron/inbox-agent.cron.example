@@ -1,0 +1,12 @@
+# Przykładowy wpis crontab dla porannego podsumowania skrzynki.
+#
+# Instalacja: `crontab -e`, wklej poniższe linie i podmień ścieżki na
+# rzeczywistą lokalizację tego repozytorium na docelowej maszynie.
+#
+# CRON_TZ jest respektowany przez większość implementacji crona na
+# Linuksie (cronie / vixie-cron — domyślne na Debianie, Ubuntu, Fedorze,
+# RHEL). Jeśli Twój cron go nie obsługuje (np. niektóre systemy
+# macOS/BSD), przelicz 6:00 czasu Europe/Warsaw na strefę systemową
+# serwera i wpisz wynikową godzinę zamiast poniższej.
+CRON_TZ=Europe/Warsaw
+0 6 * * * /pelna/sciezka/do/my-agent/scripts/run_daily.sh >> /pelna/sciezka/do/my-agent/logs/cron.log 2>&1
